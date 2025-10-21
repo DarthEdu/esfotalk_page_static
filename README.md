@@ -1,0 +1,1 @@
+Repositorio con una página web estática en HTML. Incluye la estructura principal (encabezado, secciones de contenido y pie de página), recursos estáticos (CSS, imágenes y/o scripts) y el contenido público para la presentación del proyecto.
