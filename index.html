@@ -72,10 +72,11 @@
     </div>
 
     <script>
+        // IMPORTANTE: Usa el mismo endpoint que en tu app Flutter
         const client = new Appwrite.Client();
         client
-            .setEndpoint('https://cloud.appwrite.io/v1')
-            .setProject('68c8ae740021fc2a363b');
+            .setEndpoint('https://cloud.appwrite.io/v1')  // Endpoint correcto
+            .setProject('68c8ae740021fc2a363b');  // Tu Project ID
         
         const account = new Appwrite.Account(client);
         
@@ -91,6 +92,8 @@
             const loading = document.getElementById('loading');
             const recoveryForm = document.getElementById('recoveryForm');
 
+            console.log('Parámetros recibidos:', { userId, secret, type });
+
             if (!userId || !secret) {
                 showMessage('⚠️ Link inválido. Solicita uno nuevo desde la aplicación.', 'warning');
                 loading.classList.add('d-none');
@@ -99,12 +102,14 @@
 
             try {
                 if (type === 'verification') {
+                    console.log('Intentando verificar email...');
                     // Verificar email
                     await account.updateVerification(userId, secret);
                     showMessage('✅ ¡Tu correo ha sido verificado exitosamente!<br><small>Ya puedes cerrar esta ventana y usar la aplicación.</small>', 'success');
                     loading.classList.add('d-none');
                     
                 } else if (type === 'recovery') {
+                    console.log('Mostrando formulario de recuperación...');
                     // Mostrar formulario de recuperación
                     recoveryUserId = userId;
                     recoverySecret = secret;
@@ -112,13 +117,15 @@
                     recoveryForm.classList.remove('d-none');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error completo:', error);
                 let errorMsg = 'Ha ocurrido un error: ' + error.message;
                 
                 if (error.message.includes('expired')) {
                     errorMsg = '⏰ Este link ha expirado. Por favor, solicita uno nuevo desde la aplicación.';
                 } else if (error.message.includes('Invalid')) {
                     errorMsg = '⚠️ Link inválido. Solicita uno nuevo desde la aplicación.';
+                } else if (error.message.includes('CORS') || error.message.includes('fetch')) {
+                    errorMsg = '⚠️ Error de configuración. Por favor contacta al administrador.<br><small>Error técnico: El dominio no está autorizado en Appwrite.</small>';
                 }
                 
                 showMessage(errorMsg, 'danger');
