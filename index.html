@@ -243,14 +243,15 @@
     </div>
 
     <script>
-        // IMPORTANTE: Usa el mismo endpoint que en tu app Flutter
+        // IMPORTANTE: Usa EXACTAMENTE el mismo endpoint que en tu app Flutter
+        // Si tu proyecto está en una región específica (ej: SFO), usa ese endpoint
         const client = new Appwrite.Client();
         client
-            .setEndpoint('https://cloud.appwrite.io/v1')  // Endpoint correcto
+            .setEndpoint('https://sfo.cloud.appwrite.io/v1')  // Cambiar si usas región específica como 'https://sfo.cloud.appwrite.io/v1'
             .setProject('68c8ae740021fc2a363b');  // Tu Project ID
         
         console.log('Cliente Appwrite configurado');
-        console.log('Endpoint:', 'https://cloud.appwrite.io/v1');
+        console.log('Endpoint:', 'https://sfo.cloud.appwrite.io/v1');
         console.log('Project ID:', '68c8ae740021fc2a363b');
         console.log('Origin actual:', window.location.origin);
         
